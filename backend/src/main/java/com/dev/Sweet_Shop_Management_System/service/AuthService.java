@@ -6,6 +6,7 @@ import com.dev.Sweet_Shop_Management_System.dto.response.LoginResponse;
 import com.dev.Sweet_Shop_Management_System.dto.response.RegisterResponse;
 import com.dev.Sweet_Shop_Management_System.entity.User;
 import com.dev.Sweet_Shop_Management_System.repository.UserRepository;
+import com.dev.Sweet_Shop_Management_System.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,8 @@ public class AuthService {
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final JwtUtil jwtUtil;
 
     public RegisterResponse register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -47,6 +50,23 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest request) {
-        return null;
+        // Find by username or email
+        User user = userRepository.findByUsername(request.getUsernameOrEmail())
+                .or(() -> userRepository.findByEmail(request.getUsernameOrEmail()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
+
+        // Validate password
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
+        }
+
+        // Generate JWT
+        String token = jwtUtil.generateToken(user.getUsername());
+
+        return LoginResponse.builder()
+                .token(token)
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .build();
     }
 }

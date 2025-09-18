@@ -1,6 +1,8 @@
 package com.dev.Sweet_Shop_Management_System.controller;
 
+import com.dev.Sweet_Shop_Management_System.dto.request.LoginRequest;
 import com.dev.Sweet_Shop_Management_System.dto.request.RegisterRequest;
+import com.dev.Sweet_Shop_Management_System.dto.response.LoginResponse;
 import com.dev.Sweet_Shop_Management_System.dto.response.RegisterResponse;
 import com.dev.Sweet_Shop_Management_System.service.AuthService;
 import jakarta.validation.Valid;
@@ -19,5 +21,14 @@ public class AuthController {
     public ResponseEntity<RegisterResponse> registerUser(@Valid @RequestBody RegisterRequest request) {
         RegisterResponse response = authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginRequest request) {
+        LoginResponse response = authService.login(request);
+        if (response == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(response);
     }
 }

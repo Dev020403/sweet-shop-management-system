@@ -1,6 +1,8 @@
 package com.dev.Sweet_Shop_Management_System.service;
 
+import com.dev.Sweet_Shop_Management_System.dto.request.LoginRequest;
 import com.dev.Sweet_Shop_Management_System.dto.request.RegisterRequest;
+import com.dev.Sweet_Shop_Management_System.dto.response.LoginResponse;
 import com.dev.Sweet_Shop_Management_System.dto.response.RegisterResponse;
 import com.dev.Sweet_Shop_Management_System.entity.User;
 import com.dev.Sweet_Shop_Management_System.repository.UserRepository;
@@ -42,5 +44,9 @@ public class AuthService {
                 .username(savedUser.getUsername())
                 .email(savedUser.getEmail())
                 .build();
+    }
+
+    public LoginResponse login(LoginRequest request) {
+        return null;
     }
 }

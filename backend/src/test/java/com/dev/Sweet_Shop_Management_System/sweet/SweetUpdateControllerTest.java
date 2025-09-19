@@ -174,7 +174,7 @@ public class SweetUpdateControllerTest {
         mockMvc.perform(put("/api/sweets/" + sweetId) // no Authorization header
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateRequest)))
-                .andExpect(status().isForbidden()); // or isUnauthorized depending on your config
+                .andExpect(status().isUnauthorized());
     }
 
     @Test

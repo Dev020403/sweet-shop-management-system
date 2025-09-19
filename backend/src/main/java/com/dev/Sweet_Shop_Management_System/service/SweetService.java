@@ -1,12 +1,15 @@
 package com.dev.Sweet_Shop_Management_System.service;
 
 import com.dev.Sweet_Shop_Management_System.dto.request.SweetCreateRequest;
+import com.dev.Sweet_Shop_Management_System.dto.request.SweetUpdateRequest;
 import com.dev.Sweet_Shop_Management_System.dto.response.SweetResponse;
 import com.dev.Sweet_Shop_Management_System.entity.Sweet;
 import com.dev.Sweet_Shop_Management_System.repository.SweetRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -88,4 +91,48 @@ public class SweetService {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    public SweetResponse updateSweet(Long id, SweetUpdateRequest request) {
+        Sweet sweet = sweetRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sweet not found"));
+
+        if (request.getName() != null) {
+            if (request.getName().isBlank()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name cannot be blank");
+            }
+            sweet.setName(request.getName());
+        }
+
+        if (request.getCategory() != null) {
+            if (request.getCategory().isBlank()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category cannot be blank");
+            }
+            sweet.setCategory(request.getCategory());
+        }
+
+        if (request.getPrice() != null) {
+            if (request.getPrice() < 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Price cannot be negative");
+            }
+            sweet.setPrice(request.getPrice());
+        }
+
+        if (request.getQuantity() != null) {
+            if (request.getQuantity() < 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quantity cannot be negative");
+            }
+            sweet.setQuantity(request.getQuantity());
+        }
+
+        Sweet updated = sweetRepository.save(sweet);
+
+        return SweetResponse.builder()
+                .id(updated.getId())
+                .name(updated.getName())
+                .category(updated.getCategory())
+                .price(updated.getPrice())
+                .quantity(updated.getQuantity())
+                .build();
+    }
+
 }

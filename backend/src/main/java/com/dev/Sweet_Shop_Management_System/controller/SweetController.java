@@ -1,6 +1,7 @@
 package com.dev.Sweet_Shop_Management_System.controller;
 
 import com.dev.Sweet_Shop_Management_System.dto.request.SweetCreateRequest;
+import com.dev.Sweet_Shop_Management_System.dto.request.SweetUpdateRequest;
 import com.dev.Sweet_Shop_Management_System.dto.response.SweetResponse;
 import com.dev.Sweet_Shop_Management_System.service.SweetService;
 import jakarta.validation.Valid;
@@ -37,5 +38,12 @@ public class SweetController {
             @RequestParam(required = false) Double maxPrice
     ) {
         return ResponseEntity.ok(sweetService.searchSweets(name, category, minPrice, maxPrice));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SweetResponse> updateSweet(
+            @PathVariable Long id,
+            @Valid @RequestBody SweetUpdateRequest request) {
+        return ResponseEntity.ok(sweetService.updateSweet(id, request));
     }
 }

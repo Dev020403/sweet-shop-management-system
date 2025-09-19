@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/sweets")
 @RequiredArgsConstructor
@@ -19,9 +21,11 @@ public class SweetController {
     @PostMapping
     public ResponseEntity<SweetResponse> addSweet(@Valid @RequestBody SweetCreateRequest request) {
         SweetResponse response = sweetService.addSweet(request);
-        if (response == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<SweetResponse>> getAllSweets() {
+        return ResponseEntity.ok(sweetService.getAllSweets());
     }
 }

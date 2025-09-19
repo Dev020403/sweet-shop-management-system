@@ -7,6 +7,9 @@ import com.dev.Sweet_Shop_Management_System.repository.SweetRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class SweetService {
@@ -30,5 +33,18 @@ public class SweetService {
                 .price(saved.getPrice())
                 .quantity(saved.getQuantity())
                 .build();
+    }
+
+    public List<SweetResponse> getAllSweets() {
+        return sweetRepository.findAll()
+                .stream()
+                .map(sweet -> SweetResponse.builder()
+                        .id(sweet.getId())
+                        .name(sweet.getName())
+                        .category(sweet.getCategory())
+                        .price(sweet.getPrice())
+                        .quantity(sweet.getQuantity())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

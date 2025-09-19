@@ -3,6 +3,7 @@ package com.dev.Sweet_Shop_Management_System.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -16,8 +17,11 @@ public class User {
     private Long id;
 
     private String username;
-    
+
     private String email;
 
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

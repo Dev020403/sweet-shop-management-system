@@ -4,6 +4,7 @@ import com.dev.Sweet_Shop_Management_System.dto.request.LoginRequest;
 import com.dev.Sweet_Shop_Management_System.dto.request.RegisterRequest;
 import com.dev.Sweet_Shop_Management_System.dto.response.LoginResponse;
 import com.dev.Sweet_Shop_Management_System.dto.response.RegisterResponse;
+import com.dev.Sweet_Shop_Management_System.entity.Role;
 import com.dev.Sweet_Shop_Management_System.entity.User;
 import com.dev.Sweet_Shop_Management_System.repository.UserRepository;
 import com.dev.Sweet_Shop_Management_System.security.JwtUtil;
@@ -36,6 +37,7 @@ public class AuthService {
         // Save user
         User user = User.builder()
                 .username(request.getUsername())
+                .role(Role.USER)
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
@@ -61,7 +63,7 @@ public class AuthService {
         }
 
         // Generate JWT
-        String token = jwtUtil.generateToken(user.getUsername());
+        String token = jwtUtil.generateToken(user);
 
         return LoginResponse.builder()
                 .token(token)

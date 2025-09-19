@@ -3,6 +3,7 @@ package com.dev.Sweet_Shop_Management_System.sweet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,36 @@ public class SweetCreationControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private String jwtToken;
+
+    @BeforeEach
+    void setup() throws Exception {
+        var registerRequest = RegisterRequest.builder()
+                .username("sweetUser")
+                .email("sweetuser@example.com")
+                .password("password123")
+                .build();
+
+        mockMvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(registerRequest)))
+                .andExpect(status().isCreated());
+
+        var loginRequest = LoginRequest.builder()
+                .usernameOrEmail("sweetUser")
+                .password("password123")
+                .build();
+
+        var response = mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginRequest)))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String responseBody = response.getResponse().getContentAsString();
+        jwtToken = objectMapper.readTree(responseBody).get("token").asText();
+    }
+
     @Test
     @DisplayName("✅ Should add a sweet successfully")
     void shouldAddSweetSuccessfully() throws Exception {
@@ -35,6 +66,7 @@ public class SweetCreationControllerTest {
                 .build();
 
         mockMvc.perform(post("/api/sweets")
+                        .header("Authorization", "Bearer " + jwtToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -55,6 +87,7 @@ public class SweetCreationControllerTest {
                 .build();
 
         mockMvc.perform(post("/api/sweets")
+                        .header("Authorization", "Bearer " + jwtToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -71,6 +104,7 @@ public class SweetCreationControllerTest {
                 .build();
 
         mockMvc.perform(post("/api/sweets")
+                        .header("Authorization", "Bearer " + jwtToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -87,6 +121,7 @@ public class SweetCreationControllerTest {
                 .build();
 
         mockMvc.perform(post("/api/sweets")
+                        .header("Authorization", "Bearer " + jwtToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -101,5 +136,23 @@ public class SweetCreationControllerTest {
         private String category;
         private Double price;
         private Integer quantity;
+    }
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    static class RegisterRequest {
+        private String username;
+        private String email;
+        private String password;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    static class LoginRequest {
+        private String usernameOrEmail;
+        private String password;
     }
 }

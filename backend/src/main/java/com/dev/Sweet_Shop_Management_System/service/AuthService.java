@@ -37,7 +37,7 @@ public class AuthService {
         // Save user
         User user = User.builder()
                 .username(request.getUsername())
-                .role(Role.USER)
+                .role(request.getRole())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();

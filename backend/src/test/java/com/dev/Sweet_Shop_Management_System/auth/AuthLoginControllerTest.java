@@ -1,5 +1,6 @@
 package com.dev.Sweet_Shop_Management_System.auth;
 
+import com.dev.Sweet_Shop_Management_System.entity.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.*;
@@ -31,6 +32,7 @@ class AuthLoginControllerTest {
                 .username("loginUser")
                 .email("login@example.com")
                 .password("password123")
+                .role(Role.USER)
                 .build();
 
         mockMvc.perform(post("/api/auth/register")
@@ -122,6 +124,7 @@ class AuthLoginControllerTest {
         private String username;
         private String email;
         private String password;
+        private Role role;
     }
 
     @Data

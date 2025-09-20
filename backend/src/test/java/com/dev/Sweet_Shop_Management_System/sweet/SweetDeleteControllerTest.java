@@ -97,13 +97,25 @@ class SweetDeleteControllerTest {
     @Test
     @DisplayName("✅ Should delete sweet successfully as admin")
     void shouldDeleteSweetAsAdmin() throws Exception {
+        var beforeDelete = mockMvc.perform(get("/api/sweets")
+                        .header("Authorization", "Bearer " + adminToken))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        int sizeBefore = objectMapper.readTree(beforeDelete.getResponse().getContentAsString()).size();
+
         mockMvc.perform(delete("/api/sweets/" + sweetId)
                         .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/sweets/" + sweetId)
+        var afterDelete = mockMvc.perform(get("/api/sweets")
                         .header("Authorization", "Bearer " + adminToken))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk())
+                .andReturn();
+
+        int sizeAfter = objectMapper.readTree(afterDelete.getResponse().getContentAsString()).size();
+
+        org.assertj.core.api.Assertions.assertThat(sizeAfter).isEqualTo(sizeBefore - 1);
     }
 
     @Test

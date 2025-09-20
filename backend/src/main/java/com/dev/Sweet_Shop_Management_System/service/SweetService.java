@@ -135,4 +135,10 @@ public class SweetService {
                 .build();
     }
 
+    public void deleteSweet(Long id) {
+        if (!sweetRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sweet not found with id " + id);
+        }
+        sweetRepository.deleteById(id);
+    }
 }

@@ -1,5 +1,6 @@
 package com.dev.Sweet_Shop_Management_System.sweet;
 
+import com.dev.Sweet_Shop_Management_System.entity.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.*;
@@ -36,6 +37,7 @@ class SweetSearchControllerTest {
                 .username("searchUser")
                 .email("searchuser@example.com")
                 .password("password123")
+                .role(Role.USER)
                 .build();
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -152,6 +154,7 @@ class SweetSearchControllerTest {
         private String username;
         private String email;
         private String password;
+        private Role role;
     }
 
     @Data

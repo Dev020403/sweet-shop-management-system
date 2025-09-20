@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/sweets/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/sweets/**").hasRole("ADMIN") // put this first
                         .requestMatchers("/api/sweets/**").authenticated()
                         .anyRequest().authenticated()
                 )
@@ -38,6 +38,7 @@ public class SecurityConfig {
                         )
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 

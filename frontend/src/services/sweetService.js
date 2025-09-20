@@ -53,7 +53,12 @@ export const sweetService = {
   searchSweets: async (searchParams) => {
     try {
       const response = await apiService.get(API_ENDPOINTS.SWEETS.SEARCH, {
-        params: searchParams
+        params: {
+          name: searchParams.query,    
+          category: searchParams.category,
+          minPrice: searchParams.minPrice,
+          maxPrice: searchParams.maxPrice,
+        }
       });
 
       // Handle search response structure

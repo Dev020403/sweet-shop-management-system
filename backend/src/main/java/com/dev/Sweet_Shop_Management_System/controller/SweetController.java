@@ -1,6 +1,7 @@
 package com.dev.Sweet_Shop_Management_System.controller;
 
 import com.dev.Sweet_Shop_Management_System.dto.request.PurchaseRequest;
+import com.dev.Sweet_Shop_Management_System.dto.request.RestockRequest;
 import com.dev.Sweet_Shop_Management_System.dto.request.SweetCreateRequest;
 import com.dev.Sweet_Shop_Management_System.dto.request.SweetUpdateRequest;
 import com.dev.Sweet_Shop_Management_System.dto.response.SweetResponse;
@@ -55,6 +56,7 @@ public class SweetController {
         sweetService.deleteSweet(id);
         return ResponseEntity.ok("Sweet deleted successfully");
     }
+
     @PostMapping("/{id}/purchase")
     public ResponseEntity<SweetResponse> purchaseSweet(
             @PathVariable Long id,
@@ -62,4 +64,14 @@ public class SweetController {
         SweetResponse response = sweetService.purchaseSweet(id, request);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/{id}/restock")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<SweetResponse> restockSweet(
+            @PathVariable Long id,
+            @RequestBody RestockRequest request) {
+        SweetResponse response = sweetService.restockSweet(id, request.getQuantity());
+        return ResponseEntity.ok(response);
+    }
+
 }

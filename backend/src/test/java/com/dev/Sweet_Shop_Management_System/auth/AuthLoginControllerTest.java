@@ -60,6 +60,7 @@ class AuthLoginControllerTest {
                 .username("wrongPassUser")
                 .email("wrongpass@example.com")
                 .password("password123")
+                .role(Role.USER)
                 .build();
 
         mockMvc.perform(post("/api/auth/register")

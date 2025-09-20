@@ -168,4 +168,25 @@ public class SweetService {
                 .quantity(updated.getQuantity())
                 .build();
     }
+
+    public SweetResponse restockSweet(Long id, int quantity) {
+        Sweet sweet = sweetRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sweet not found"));
+
+        if (quantity <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Restock quantity must be greater than 0");
+        }
+
+        sweet.setQuantity(sweet.getQuantity() + quantity);
+        Sweet updated = sweetRepository.save(sweet);
+
+        return SweetResponse.builder()
+                .id(updated.getId())
+                .name(updated.getName())
+                .category(updated.getCategory())
+                .price(updated.getPrice())
+                .quantity(updated.getQuantity())
+                .build();
+    }
+
 }

@@ -85,6 +85,7 @@ class AuthControllerTest {
                 .username("duplicateUser")
                 .email("dup@example.com")
                 .password("password123")
+                .role(Role.USER)
                 .build();
 
         // First registration should succeed

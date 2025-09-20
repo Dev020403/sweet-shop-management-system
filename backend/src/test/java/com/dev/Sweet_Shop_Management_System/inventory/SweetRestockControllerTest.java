@@ -2,6 +2,7 @@ package com.dev.Sweet_Shop_Management_System.inventory;
 
 import com.dev.Sweet_Shop_Management_System.dto.request.RegisterRequest;
 import com.dev.Sweet_Shop_Management_System.dto.request.LoginRequest;
+import com.dev.Sweet_Shop_Management_System.dto.request.RestockRequest;
 import com.dev.Sweet_Shop_Management_System.dto.request.SweetCreateRequest;
 import com.dev.Sweet_Shop_Management_System.entity.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;

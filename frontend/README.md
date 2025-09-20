@@ -1,70 +1,147 @@
-# Getting Started with Create React App
+# Sweet Shop Management System - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern React frontend application for managing a sweet shop inventory system. Built with Material-UI for beautiful design and responsive user experience.
 
-## Available Scripts
+## 🍬 Features
 
-In the project directory, you can run:
+### User Features
+- **Authentication**: Secure login and registration system
+- **Sweet Browsing**: Browse and search through available sweets
+- **Advanced Filtering**: Filter by category, price range, and search terms
+- **Purchase System**: Purchase sweets with quantity selection
+- **Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
 
-### `npm start`
+### Admin Features (Admin Role Required)
+- **Inventory Management**: Add, edit, and delete sweets
+- **Stock Management**: Restock items and monitor inventory levels
+- **Dashboard Analytics**: View inventory statistics and alerts
+- **Stock Alerts**: Get notifications for out-of-stock and low-stock items
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🚀 Technologies Used
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **React 19** - Frontend framework
+- **Material-UI (MUI)** - Component library and design system
+- **React Router DOM** - Client-side routing
+- **React Hook Form** - Form handling with validation
+- **Yup** - Schema validation
+- **Axios** - HTTP client for API requests
+- **React Toastify** - Toast notifications
+- **Context API** - State management
 
-### `npm test`
+## 🛠️ Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn package manager
+- Backend API server running on port 5000 (or update the API URL in .env)
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Environment Configuration**
+   
+   Create a `.env` file in the root directory with the following variables:
+   ```env
+   REACT_APP_API_URL=http://localhost:5000
+   REACT_APP_NAME=Sweet Shop Management System
+   REACT_APP_VERSION=1.0.0
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Start the development server**
+   ```bash
+   npm start
+   ```
 
-### `npm run eject`
+   The application will open in your browser at `http://localhost:3000`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Available Scripts
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- `npm start` - Runs the app in development mode
+- `npm build` - Builds the app for production
+- `npm test` - Launches the test runner
+- `npm eject` - Ejects from Create React App (one-way operation)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🔐 Authentication System
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Demo Credentials
+For testing purposes, you can use these demo accounts:
 
-## Learn More
+**Admin Account:**
+- Email: `admin@sweetshop.com`
+- Password: `password123`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Regular User:**
+- Email: `user@sweetshop.com`
+- Password: `password123`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📁 Project Structure
 
-### Code Splitting
+```
+src/
+├── components/           # Reusable UI components
+│   ├── common/          # Common components (SweetCard, LoadingSpinner, etc.)
+│   ├── forms/           # Form-specific components
+│   └── layout/          # Layout components (Header, Footer, etc.)
+├── pages/               # Page components
+│   ├── auth/           # Authentication pages (Login, Register)
+│   ├── dashboard/      # Dashboard and main pages
+│   ├── admin/          # Admin panel pages
+│   └── sweets/         # Sweet-specific pages
+├── services/           # API services and HTTP clients
+├── hooks/              # Custom React hooks
+├── context/            # React Context providers
+├── constants/          # Application constants and config
+├── styles/             # Theme and styling configuration
+├── utils/              # Utility functions
+└── types/              # TypeScript type definitions (if using TS)
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🎨 UI Components
 
-### Analyzing the Bundle Size
+### Material-UI Theme
+The application uses a custom Material-UI theme with:
+- **Primary Color**: Sweet Pink (#FF6B9D)
+- **Secondary Color**: Sky Blue (#4A90E2)
+- **Background**: Cream gradient for a warm, inviting feel
+- **Typography**: Inter font family for modern readability
+- **Custom Components**: Enhanced cards, buttons, and form elements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🔄 API Integration
 
-### Making a Progressive Web App
+### Endpoints Used
+- `POST /api/auth/login` - User authentication
+- `POST /api/auth/register` - User registration
+- `GET /api/sweets` - Fetch sweets with pagination
+- `GET /api/sweets/search` - Search sweets
+- `POST /api/sweets` - Add new sweet (Admin)
+- `PUT /api/sweets/:id` - Update sweet (Admin)
+- `DELETE /api/sweets/:id` - Delete sweet (Admin)
+- `POST /api/sweets/:id/purchase` - Purchase sweet
+- `POST /api/sweets/:id/restock` - Restock sweet (Admin)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 🚀 Production Build
 
-### Advanced Configuration
+### Build Optimization
+```bash
+npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+This creates an optimized production build with:
+- Code splitting and lazy loading
+- Asset optimization and compression
+- Service worker for caching
+- Progressive Web App features
 
-### Deployment
+## 🤝 Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Happy coding! 🍬✨**

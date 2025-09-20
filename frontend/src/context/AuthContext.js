@@ -30,7 +30,7 @@ const authReducer = (state, action) => {
         ...state,
         user: action.payload,
         isAuthenticated: true,
-        isAdmin: action.payload?.role === 'admin',
+        isAdmin: action.payload?.role === 'ADMIN',
         loading: false,
       };
     case ActionTypes.LOGOUT:
@@ -43,7 +43,7 @@ const authReducer = (state, action) => {
         ...state,
         user: action.payload,
         isAuthenticated: !!action.payload,
-        isAdmin: action.payload?.role === 'admin',
+        isAdmin: action.payload?.role === 'ADMIN',
         loading: false,
       };
     default:

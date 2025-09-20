@@ -22,7 +22,7 @@ import {
   Dashboard,
   ExitToApp,
   Person,
-  Admin,
+  AdminPanelSettings,
 } from '@mui/icons-material';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -110,7 +110,7 @@ const Layout = ({ children }) => {
               {isAdmin && (
                 <Button
                   color={isActive('/admin') ? 'primary' : 'inherit'}
-                  startIcon={<Admin />}
+                  startIcon={<AdminPanelSettings />}
                   onClick={() => navigate('/admin')}
                   sx={{
                     fontWeight: isActive('/admin') ? 600 : 400,
@@ -218,7 +218,7 @@ const Layout = ({ children }) => {
                     </MenuItem>
                     {isAdmin && (
                       <MenuItem onClick={() => handleNavigation('/admin')}>
-                        <Admin sx={{ mr: 1 }} />
+                        <AdminPanelSettings sx={{ mr: 1 }} />
                         Admin Panel
                       </MenuItem>
                     )}

@@ -17,7 +17,24 @@ export const sweetService = {
   getAllSweets: async (params = {}) => {
     try {
       const response = await apiService.get(API_ENDPOINTS.SWEETS.BASE, { params });
-      return response.data;
+
+      // Handle API response structure: { data: [sweet1, sweet2, ...] }
+      let sweets = [];
+      if (response.data && Array.isArray(response.data.data)) {
+        sweets = response.data.data;
+      } else if (Array.isArray(response.data)) {
+        sweets = response.data;
+      }
+      return {
+        data: sweets,
+        pagination: response.data.pagination || {
+          page: 1,
+          limit: sweets.length,
+          total: sweets.length,
+          totalPages: 1
+        },
+        total: response.data.total || sweets.length
+      };
     } catch (error) {
       toast.error('Failed to fetch sweets');
       throw error;
@@ -38,7 +55,25 @@ export const sweetService = {
       const response = await apiService.get(API_ENDPOINTS.SWEETS.SEARCH, {
         params: searchParams
       });
-      return response.data;
+
+      // Handle search response structure
+      let sweets = [];
+      if (response.data && Array.isArray(response.data.data)) {
+        sweets = response.data.data;
+      } else if (Array.isArray(response.data)) {
+        sweets = response.data;
+      }
+
+      return {
+        data: sweets,
+        pagination: response.data.pagination || {
+          page: 1,
+          limit: sweets.length,
+          total: sweets.length,
+          totalPages: 1
+        },
+        total: response.data.total || sweets.length
+      };
     } catch (error) {
       toast.error('Search failed');
       throw error;
@@ -53,6 +88,11 @@ export const sweetService = {
   getSweetById: async (id) => {
     try {
       const response = await apiService.get(API_ENDPOINTS.SWEETS.BY_ID(id));
+
+      // Handle single sweet response
+      if (response.data.data) {
+        return response.data.data;
+      }
       return response.data;
     } catch (error) {
       toast.error('Failed to fetch sweet details');
@@ -75,6 +115,11 @@ export const sweetService = {
     try {
       const response = await apiService.post(API_ENDPOINTS.SWEETS.BASE, sweetData);
       toast.success(MESSAGES.SWEET_ADDED);
+
+      // Handle created sweet response
+      if (response.data.data) {
+        return response.data.data;
+      }
       return response.data;
     } catch (error) {
       const message = error.response?.data?.message || 'Failed to add sweet';
@@ -93,6 +138,11 @@ export const sweetService = {
     try {
       const response = await apiService.put(API_ENDPOINTS.SWEETS.BY_ID(id), sweetData);
       toast.success(MESSAGES.SWEET_UPDATED);
+
+      // Handle updated sweet response
+      if (response.data.data) {
+        return response.data.data;
+      }
       return response.data;
     } catch (error) {
       const message = error.response?.data?.message || 'Failed to update sweet';
@@ -131,6 +181,11 @@ export const sweetService = {
         { quantity }
       );
       toast.success(MESSAGES.PURCHASE_SUCCESS);
+
+      // Handle purchase response
+      if (response.data.data) {
+        return response.data.data;
+      }
       return response.data;
     } catch (error) {
       const message = error.response?.data?.message || MESSAGES.PURCHASE_ERROR;
@@ -152,6 +207,11 @@ export const sweetService = {
         { quantity }
       );
       toast.success(MESSAGES.RESTOCK_SUCCESS);
+
+      // Handle restock response
+      if (response.data.data) {
+        return response.data.data;
+      }
       return response.data;
     } catch (error) {
       const message = error.response?.data?.message || MESSAGES.RESTOCK_ERROR;

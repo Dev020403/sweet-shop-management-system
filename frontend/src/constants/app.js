@@ -16,8 +16,8 @@ export const SWEET_CATEGORIES = [
 
 // User Roles
 export const USER_ROLES = {
-  USER: 'user',
-  ADMIN: 'admin'
+  USER: 'USER',
+  ADMIN: 'ADMIN'
 };
 
 // Toast Messages

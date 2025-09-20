@@ -2,6 +2,8 @@ package com.dev.Sweet_Shop_Management_System.inventory;
 
 import com.dev.Sweet_Shop_Management_System.dto.request.RegisterRequest;
 import com.dev.Sweet_Shop_Management_System.dto.request.LoginRequest;
+import com.dev.Sweet_Shop_Management_System.dto.request.SweetCreateRequest;
+import com.dev.Sweet_Shop_Management_System.dto.request.PurchaseRequest;
 import com.dev.Sweet_Shop_Management_System.entity.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
@@ -57,7 +59,7 @@ class SweetPurchaseControllerTest {
         userToken = objectMapper.readTree(loginResponse.getResponse().getContentAsString()).get("token").asText();
 
         // Add a sweet
-        var sweetRequest = SweetRequest.builder()
+        var sweetRequest = SweetCreateRequest.builder()
                 .name("Rasgulla")
                 .category("Indian Sweet")
                 .price(10.0)
@@ -96,7 +98,7 @@ class SweetPurchaseControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(purchase)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Insufficient stock"));
+                .andExpect(jsonPath("$.message").value("Insufficient stock available"));
     }
 
     @Test
@@ -134,22 +136,4 @@ class SweetPurchaseControllerTest {
                 .andExpect(status().isUnauthorized());
     }
 
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    static class SweetRequest {
-        private String name;
-        private String category;
-        private Double price;
-        private Integer quantity;
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    static class PurchaseRequest {
-        private int quantity;
-    }
 }

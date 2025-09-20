@@ -1,5 +1,6 @@
 package com.dev.Sweet_Shop_Management_System.service;
 
+import com.dev.Sweet_Shop_Management_System.dto.request.PurchaseRequest;
 import com.dev.Sweet_Shop_Management_System.dto.request.SweetCreateRequest;
 import com.dev.Sweet_Shop_Management_System.dto.request.SweetUpdateRequest;
 import com.dev.Sweet_Shop_Management_System.dto.response.SweetResponse;
@@ -140,5 +141,31 @@ public class SweetService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Sweet not found with id " + id);
         }
         sweetRepository.deleteById(id);
+    }
+
+    public SweetResponse purchaseSweet(Long id, PurchaseRequest request) {
+        Sweet sweet = sweetRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sweet not found"));
+
+        int quantity = request.getQuantity();
+
+        if (quantity <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quantity must be greater than 0");
+        }
+
+        if (sweet.getQuantity() < quantity) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient stock available");
+        }
+
+        sweet.setQuantity(sweet.getQuantity() - quantity);
+        Sweet updated = sweetRepository.save(sweet);
+
+        return SweetResponse.builder()
+                .id(updated.getId())
+                .name(updated.getName())
+                .category(updated.getCategory())
+                .price(updated.getPrice())
+                .quantity(updated.getQuantity())
+                .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.dev.Sweet_Shop_Management_System.controller;
 
+import com.dev.Sweet_Shop_Management_System.dto.request.PurchaseRequest;
 import com.dev.Sweet_Shop_Management_System.dto.request.SweetCreateRequest;
 import com.dev.Sweet_Shop_Management_System.dto.request.SweetUpdateRequest;
 import com.dev.Sweet_Shop_Management_System.dto.response.SweetResponse;
@@ -53,5 +54,12 @@ public class SweetController {
     public ResponseEntity<String> deleteSweet(@PathVariable Long id) {
         sweetService.deleteSweet(id);
         return ResponseEntity.ok("Sweet deleted successfully");
+    }
+    @PostMapping("/{id}/purchase")
+    public ResponseEntity<SweetResponse> purchaseSweet(
+            @PathVariable Long id,
+            @Valid @RequestBody PurchaseRequest request) {
+        SweetResponse response = sweetService.purchaseSweet(id, request);
+        return ResponseEntity.ok(response);
     }
 }
